@@ -1,0 +1,77 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 12px;
+  background: #0d0d0d;
+  border-bottom: 1px solid #222;
+
+}
+
+.logoBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid #333;
+  background: #1e1e1e;
+  text-decoration: none;
+  color: #f5f5f5;
+  font-size: 15px;
+  font-weight: 600;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.logoBtn:hover {
+  background: #252525;
+  border-color: #ffcc00;
+  color: #ffcc00;
+}
+
+.logo {
+  width: 24px;
+  height: 24px;
+}
+
+.brand {
+  font-size: 16px;
+  font-weight: 800;
+  color: inherit;
+  letter-spacing: 0.2px;
+}
+
+.centerNav {
+  display: flex;
+  gap: 10px;
+}
+
+.navigate {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 12px;
+  border: 1px solid #333;
+  background: #1e1e1e;
+  color: #eaeaea;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+a.navigate:hover,
+button.navigate:hover {
+  background: #2a2a2a;
+  border-color: #ffcc00;
+  color: #ffcc00;
+}

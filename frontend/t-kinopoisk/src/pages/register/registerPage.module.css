@@ -1,0 +1,82 @@
+.page {
+  flex: 1;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 430px;
+  border-radius: 18px;
+  border: 1px solid #2f2f2f;
+  background: rgba(16, 16, 16, 0.95);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  padding: 28px 24px;
+}
+
+.title {
+  margin: 0 0 10px;
+  font-size: 30px;
+  color: #ffcc00;
+}
+
+.subtitle {
+  margin: 0 0 24px;
+  color: #d4d4d4;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #f2f2f2;
+  font-size: 14px;
+}
+
+.input {
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  background: #181818;
+  color: #fff;
+  padding: 12px 14px;
+  font-size: 14px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #ffcc00;
+}
+
+.primaryButton {
+  border: none;
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #ffcc00;
+  color: #111;
+}
+
+.authFooter {
+  margin: 16px 0 0;
+  color: #c3cfca;
+}
+
+.authFooter a {
+  color: #d2a768;
+}
+
+.authFooter a:hover {
+  color: #e5be82;
+}

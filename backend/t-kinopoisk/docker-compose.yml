@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: t-kinopoisk
+      POSTGRES_USER: kinopoisk
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
