@@ -1,53 +1,33 @@
-import { createAppSlice } from "../../app/createAppSice"
-import { loginRequest, registerRequest } from "./authApi"
-
-const TOKEN = 'token';
-const USERNAME = 'username';
+import { createAppSlice } from "../../app/createAppSlice"
+import { loginRequest, logoutRequest, meRequest, registerRequest, type AuthUser } from "./authApi";
 
 interface AuthState {
-  token: string | null,
-  username: string | null,
-  status: 'idle' | 'loading' | 'failed',
-  error: string | null,
+  user: AuthUser | null;
+  status: 'idle' | 'loading' | 'failed';
+  error: string | null;
+  sessionChecked: boolean;
 }
 
 const initialState: AuthState = {
-  token: localStorage.getItem(TOKEN),
-  username: localStorage.getItem(USERNAME),
+  user: null,
   status: 'idle',
   error: null,
+  sessionChecked: false,
 }
 
 export const authSlice = createAppSlice({
   name: "auth",
   initialState,
   reducers: (create) => ({
-    logout: create.reducer((state) => {
-      state.token = null
-      state.username = null
-      state.status = 'idle'
-      state.error = null
-      localStorage.removeItem(TOKEN);
-      localStorage.removeItem(USERNAME);
-    }),
-
     loginUser: create.asyncThunk(
-      async (userData: { username: string, password: string}, { rejectWithValue }) => {
-        try {
-          const data = await loginRequest({
-            login: userData.username,
-            password: userData.password,
-          })
-          localStorage.setItem(TOKEN, data.token);
-          localStorage.setItem(USERNAME, userData.username);
+      async (userData: { username: string, password: string}) => {
+        await loginRequest({
+          login: userData.username,
+          password: userData.password,
+        })
 
-          return { token: data.token, username: userData.username}
-        } catch (e) {
-          if (e instanceof Error) {
-            return rejectWithValue(e.message || 'Ошибка входа')
-          }
-          return rejectWithValue('Ошибка регистрации')
-        }
+        const user = await meRequest();
+        return { user };
       },
       {
         pending: (state) => {
@@ -56,8 +36,8 @@ export const authSlice = createAppSlice({
         },
         fulfilled: (state, action) => {
           state.status = 'idle';
-          state.username = action.payload.username;
-          state.token = action.payload.token;
+          state.user = action.payload.user;
+          state.sessionChecked = true;
         },
         rejected: (state, action) => {
           state.status = 'failed';
@@ -67,28 +47,15 @@ export const authSlice = createAppSlice({
     ),
 
     registerUser: create.asyncThunk(
-      async (userData: { username: string, password: string}, { rejectWithValue }) => {
-        try {
+      async (userData: { username: string, password: string}) => {
           await registerRequest({
             login: userData.username,
             password: userData.password,
           })
 
-          const data = await loginRequest({
-            login: userData.username,
-            password: userData.password,
-          })
-          
-          localStorage.setItem(TOKEN, data.token);
-          localStorage.setItem(USERNAME, userData.username);
+          const user = await meRequest();
+          return { user }
 
-          return { token: data.token, username: userData.username}
-        } catch (e) {
-          if (e instanceof Error) {
-            return rejectWithValue(e.message || 'Ошибка регистрации')
-          }
-          return rejectWithValue('Ошибка регистрации')
-        }
       },
       {
         pending: (state) => {
@@ -97,23 +64,66 @@ export const authSlice = createAppSlice({
         },
         fulfilled: (state, action) => {
           state.status = 'idle';
-          state.username = action.payload.username;
-          state.token = action.payload.token;
+          state.user = action.payload.user;
+          state.sessionChecked = true;
         },
         rejected: (state, action) => {
           state.status = 'failed';
           state.error = action.payload as string;
         }
       }
+    ),
+
+    logoutUser: create.asyncThunk(
+      async (_, { rejectWithValue }) => {
+        try {
+          await logoutRequest();
+          return true;
+        } catch (e) {
+          if (e instanceof Error) {
+            return rejectWithValue(e.message);
+          }
+          return rejectWithValue('Ошибка выхода');
+        }
+      },
+      {
+        fulfilled: (state) => {
+          state.user = null;
+          state.status = 'idle';
+          state.error = null;
+        }
+      }
+    ),
+
+    bootstrapSession: create.asyncThunk(
+      async () => {
+        try {
+          return await meRequest();
+        } catch {
+          return null;
+        }
+      },
+      {
+        pending: (state) => {
+          state.status = 'loading';
+        },
+        fulfilled: (state, action) => {
+          state.user = action.payload;
+          state.sessionChecked = true;
+          state.status = 'idle';
+        }
+      }
     )
   }),
   selectors: {
-    selectToken: state => state.token,
     selectAuthStatus: state => state.status,
-    selectUsername: state => state.username,
-    selectAuthError: state => state.error, 
+    selectUser: state => state.user,
+    selectAuthError: state => state.error,
+    selectUsername: (state) => state.user?.login ?? null,
+    selectIsAuthenticated: (state) => state.user !== null,
+    selectCheckedSession: (state) => state.sessionChecked,
   }
 })
 
-export const { logout, loginUser, registerUser} = authSlice.actions
-export const { selectToken, selectAuthStatus, selectUsername, selectAuthError} = authSlice.selectors
+export const { logoutUser, loginUser, registerUser, bootstrapSession } = authSlice.actions
+export const { selectAuthStatus, selectUsername, selectAuthError, selectUser, selectIsAuthenticated, selectCheckedSession } = authSlice.selectors

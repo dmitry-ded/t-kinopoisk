@@ -1,6 +1,5 @@
-import React from 'react'
 import { useAppDispatch } from '../../app/hooks';
-import { logout } from '../../features/auth/authSlice';
+import { logoutUser } from '../../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 const ProfilePage = () => {
@@ -9,8 +8,14 @@ const ProfilePage = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate('/login');
+    try {
+      dispatch(logoutUser());
+    } catch {
+
+    }
+    finally {
+      navigate('/login');
+    }
   };
 
   return (
