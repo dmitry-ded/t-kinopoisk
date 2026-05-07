@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import styles from './registerPage.module.css';
+import s from './registerPage.module.css';
 import { useAppDispatch } from '../../app/hooks';
 import { useState, type FormEvent } from 'react';
 import { registerUser } from '../../features/auth/authSlice';
@@ -24,18 +24,18 @@ const RegisterPage = () => {
   };
 
   return (
-    <section className={styles.page}>
-      <div className={styles.card}>
-        <h1 className={styles.title}>Регистрация</h1>
-        <p className={styles.subtitle}>
+    <section className={s.page}>
+      <div className={s.card}>
+        <h1 className={s.title}>Регистрация</h1>
+        <p className={s.subtitle}>
           Создай аккаунт, чтобы собирать персональную коллекцию фильмов
         </p>
-        <form onSubmit={handleRegister} className={styles.form}>
-          <label className={styles.label}>
+        <form onSubmit={handleRegister} className={s.form}>
+          <label className={s.label}>
             Логин
             <input
               type="text"
-              className={styles.input}
+              className={s.input}
               value={login}
               onChange={(e) => setLogin(e.target.value)}
               autoComplete="username"
@@ -43,11 +43,11 @@ const RegisterPage = () => {
               placeholder="Придумайте логин"
             />
           </label>
-          <label className={styles.label}>
+          <label className={s.label}>
             Пароль
             <input
               type="password"
-              className={styles.input}
+              className={s.input}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="password"
@@ -55,14 +55,14 @@ const RegisterPage = () => {
               placeholder="Придумайте пароль"
             />
           </label>
-          <button type="submit" className={styles.primaryButton}>
+          <button type="submit" className={s.primaryButton}>
             Зарегистрироваться
           </button>
         </form>
 
-        {messageError ? <p className={styles.errorMessage}>{messageError}</p> : null}
+        {messageError ? <p className={s.errorMessage}>{messageError}</p> : null}
 
-        <p className={styles.authFooter}>
+        <p className={s.authFooter}>
           Уже есть аккаунт? <Link to="/login">Войти</Link>
         </p>
       </div>

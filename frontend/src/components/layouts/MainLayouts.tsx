@@ -1,13 +1,13 @@
 import Header from '../header/Header';
 import { Outlet } from 'react-router-dom';
 import Footer from '../footer/Footer';
-import styles from './MainLayouts.module.css';
+import s from './MainLayouts.module.css';
 
 const MainLayouts = () => {
   return (
-    <div className={styles.shell}>
+    <div className={s.shell}>
       <Header />
-      <main className={styles.main}>
+      <main className={s.main}>
         <Outlet />
       </main>
       <Footer />

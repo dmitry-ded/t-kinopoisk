@@ -1,16 +1,22 @@
 import { createAppSlice } from "../../app/createAppSlice"
 import { loginRequest, logoutRequest, meRequest, registerRequest, type AuthUser } from "./authApi";
 
+export enum RequestStatus {
+  Idle = "idle",
+  Loading = "loading",
+  Failed = "failed",
+}
+
 interface AuthState {
   user: AuthUser | null;
-  status: 'idle' | 'loading' | 'failed';
+  status: RequestStatus.Idle | RequestStatus.Loading | RequestStatus.Failed;
   error: string | null;
   sessionChecked: boolean;
 }
 
 const initialState: AuthState = {
   user: null,
-  status: 'idle',
+  status: RequestStatus.Idle,
   error: null,
   sessionChecked: false,
 }
@@ -31,16 +37,16 @@ export const authSlice = createAppSlice({
       },
       {
         pending: (state) => {
-          state.status = 'loading';
+          state.status = RequestStatus.Loading;
           state.error = null;
         },
         fulfilled: (state, action) => {
-          state.status = 'idle';
+          state.status = RequestStatus.Idle;
           state.user = action.payload.user;
           state.sessionChecked = true;
         },
         rejected: (state, action) => {
-          state.status = 'failed';
+          state.status = RequestStatus.Failed;
           state.error = action.payload as string;
         }
       }
@@ -59,16 +65,16 @@ export const authSlice = createAppSlice({
       },
       {
         pending: (state) => {
-          state.status = 'loading';
+          state.status = RequestStatus.Loading;
           state.error = null;
         },
         fulfilled: (state, action) => {
-          state.status = 'idle';
+          state.status = RequestStatus.Idle;
           state.user = action.payload.user;
           state.sessionChecked = true;
         },
         rejected: (state, action) => {
-          state.status = 'failed';
+          state.status = RequestStatus.Failed;
           state.error = action.payload as string;
         }
       }
@@ -89,7 +95,7 @@ export const authSlice = createAppSlice({
       {
         fulfilled: (state) => {
           state.user = null;
-          state.status = 'idle';
+          state.status = RequestStatus.Idle;
           state.error = null;
         }
       }
@@ -105,12 +111,12 @@ export const authSlice = createAppSlice({
       },
       {
         pending: (state) => {
-          state.status = 'loading';
+          state.status = RequestStatus.Loading;
         },
         fulfilled: (state, action) => {
           state.user = action.payload;
           state.sessionChecked = true;
-          state.status = 'idle';
+          state.status = RequestStatus.Idle;
         }
       }
     )

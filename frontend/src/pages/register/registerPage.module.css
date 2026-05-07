@@ -11,8 +11,8 @@
   max-width: 430px;
   border-radius: 18px;
   border: 1px solid #2f2f2f;
-  background: rgba(16, 16, 16, 0.95);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  background: #111111F2;
+  box-shadow: 0 20px 50px #00000075;
   padding: 28px 24px;
 }
 

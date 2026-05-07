@@ -1,8 +1,14 @@
 import axios, { AxiosError } from "axios";
 
-// const URL = "https://tkinopoisk-a1c5zmy0.b4a.run";
-const URL = "http://localhost:8080";
+const getUrl = () => {
+  if (typeof window !== "undefined" && !window.location.host.includes("localhost")) {
+    return "https://tkinopoisk-a1c5zmy0.b4a.run";
+  }
 
+  return "http://localhost:8080";
+}
+
+const URL = getUrl();
 
 const api = axios.create({
   baseURL: URL,
@@ -22,7 +28,7 @@ export type AuthUser = {
   login: string;
 }
 
-interface AuthOkResponse {
+type AuthOkResponse = {
   message: string;
 };
 
@@ -31,6 +37,13 @@ export type MePayload = {
   id: number | null;
   login: string | null;
 };
+
+export enum AuthApiPath {
+  Login = "/api/auth/login",
+  Register = "/api/auth/register",
+  Logout = "/api/auth/logout",
+  Me = "/api/auth/me",
+}
 
 async function requestAuth(url: string, payload: AuthPayload): Promise<AuthOkResponse> {
   try {
@@ -44,7 +57,7 @@ async function requestAuth(url: string, payload: AuthPayload): Promise<AuthOkRes
 }
 
 export async function meRequest(): Promise<AuthUser | null> {
-  const res = await api.get<MePayload>('/api/auth/me');
+  const res = await api.get<MePayload>(AuthApiPath.Me);
   const data = res.data
 
   if (!data.authenticated) {
@@ -57,13 +70,13 @@ export async function meRequest(): Promise<AuthUser | null> {
 }
 
 export async function logoutRequest(): Promise<void> {
-  await api.post('/api/auth/logout');
+  await api.post(AuthApiPath.Logout);
 }
 
 export async function loginRequest(payload: AuthPayload): Promise<AuthOkResponse> {
-  return requestAuth('/api/auth/login', payload);
+  return requestAuth(AuthApiPath.Login, payload);
 }
 
 export async function registerRequest(payload: AuthPayload): Promise<AuthOkResponse> {
-  return requestAuth('/api/auth/register', payload);
+  return requestAuth(AuthApiPath.Register, payload);
 }
