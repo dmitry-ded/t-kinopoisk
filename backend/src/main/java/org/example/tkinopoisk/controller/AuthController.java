@@ -79,7 +79,7 @@ public class AuthController {
     public void logout(HttpServletResponse response) {
         ResponseCookie cookie = ResponseCookie.from("auth_token", "")
                 .httpOnly(true)
-                .secure(false) // localhost; в проде true
+                .secure(false)
                 .sameSite("Lax")
                 .path("/")
                 .maxAge(0)

@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
 import { loginUser } from '../../features/auth/authSlice';
 import s from './loginPage.module.css';
-import { useState, type FormEvent, } from 'react';
+import { useState, type FormEvent } from 'react';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -27,9 +27,7 @@ const LoginPage = () => {
     <section className={s.page}>
       <div className={s.card}>
         <h1 className={s.title}>Вход</h1>
-        <p className={s.subtitle}>
-          Войди в аккаунт, чтобы смотреть и сохранять любимые фильмы
-        </p>
+        <p className={s.subtitle}>Войди в аккаунт, чтобы смотреть и сохранять любимые фильмы</p>
         <form onSubmit={handleLogin} className={s.form}>
           <label className={s.label}>
             Логин
@@ -39,7 +37,7 @@ const LoginPage = () => {
               value={login}
               onChange={(e) => setLogin(e.target.value)}
               required
-              autoComplete='username'
+              autoComplete="username"
               placeholder="Введите логин"
             />
           </label>
@@ -51,7 +49,7 @@ const LoginPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              autoComplete='password'
+              autoComplete="password"
               placeholder="Введите пароль"
             />
           </label>

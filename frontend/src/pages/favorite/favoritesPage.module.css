@@ -1,0 +1,186 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1100px;
+  padding: 28px 20px 48px;
+
+}
+
+.header {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ffffff14;
+
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #ffffff8c;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card {
+  display: flex;
+  gap: 20px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #1a1a1afa;
+  border: 1px solid #ffffff0f;
+  box-shadow: 0 8px 32px #00000059;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.goToCard {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card:hover {
+  border-color: #ff6b3559;
+  transform: translateY(-1px);
+}
+
+.posterWrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #0d0d0d;
+}
+
+.poster {
+  display: block;
+  width: 100%;
+  height: 168px;
+  object-fit: cover;
+}
+
+.ratingBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #111111eb;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.ageBadge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 7px;
+  border-radius: 4px;
+  border: 1px solid #ffffff33;
+  background: #ffffff14;
+  color: #ffffffe6;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.name {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.nameEn {
+  margin: 0;
+  font-size: 13px;
+  color: #ffffff73;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  font-size: 13px;
+  color: #ffffffa6;
+}
+
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.metaDot {
+  color: #ffffff40;
+}
+
+.genres {
+  font-size: 13px;
+  color: #ff6b35e6;
+}
+
+.description {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #ffffff8c;
+}
+
+.state {
+  padding: 48px 20px;
+  text-align: center;
+  font-size: 15px;
+  color: #ffffff73;
+}
+
+@media (max-width: 560px) {
+  .card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .posterWrap {
+    width: 100%;
+  }
+
+  .poster {
+    height: 220px;
+  }
+}

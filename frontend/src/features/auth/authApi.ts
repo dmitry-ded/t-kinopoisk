@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 
-const getUrl = () => {
+export const getUrl = () => {
   if (typeof window !== "undefined" && !window.location.host.includes("localhost")) {
     return "https://tkinopoisk-a1c5zmy0.b4a.run";
   }

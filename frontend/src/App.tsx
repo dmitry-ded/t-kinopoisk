@@ -8,16 +8,33 @@ import ProfilePage from './pages/profile/ProfilePage';
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
 import NotFoundPage from './pages/notFound/NotFoundPage';
 import { useEffect } from 'react';
-import { useAppDispatch } from './app/hooks';
-import { bootstrapSession } from './features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from './app/hooks';
+import {
+  bootstrapSession,
+  selectCheckedSession,
+  selectIsAuthenticated,
+} from './features/auth/authSlice';
+import FavoritesPage from './pages/favorite/FavoritesPage';
+import CardPage from './pages/cardPage/CardPage';
+import { clearFavorites, fetchFavorites } from './features/movies/favoriteSlice';
 
 function App() {
-
   const dispatch = useAppDispatch();
+  const isAuth = useAppSelector(selectIsAuthenticated);
+  const sessionChecked = useAppSelector(selectCheckedSession);
 
   useEffect(() => {
     dispatch(bootstrapSession());
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    if (!sessionChecked) return;
+    if (isAuth) {
+      dispatch(fetchFavorites());
+    } else {
+      dispatch(clearFavorites());
+    }
+  }, [sessionChecked, isAuth]);
 
   return (
     <Routes>
@@ -25,8 +42,10 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/card/:movieId" element={<CardPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/favorites" element={<FavoritesPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Route>

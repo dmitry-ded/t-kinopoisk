@@ -11,8 +11,7 @@ body {
   min-height: 100%;
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
   color: #eaeaea;
-  background: radial-gradient(circle at top, #222 0%, #111 52%, #0a0a0a 100%);
-  background-attachment: fixed;
+  background: #111;
 }
 
 #root {

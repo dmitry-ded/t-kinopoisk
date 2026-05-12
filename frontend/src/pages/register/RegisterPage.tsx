@@ -15,7 +15,7 @@ const RegisterPage = () => {
     e.preventDefault();
     setMessageError('');
     try {
-      await dispatch(registerUser({ username: login, password}));
+      await dispatch(registerUser({ username: login, password }));
       navigate('/profile');
     } catch (e) {
       setMessageError(e instanceof Error ? e.message : 'Не удалось выполнить регистрацию');
@@ -27,9 +27,7 @@ const RegisterPage = () => {
     <section className={s.page}>
       <div className={s.card}>
         <h1 className={s.title}>Регистрация</h1>
-        <p className={s.subtitle}>
-          Создай аккаунт, чтобы собирать персональную коллекцию фильмов
-        </p>
+        <p className={s.subtitle}>Создай аккаунт, чтобы собирать персональную коллекцию фильмов</p>
         <form onSubmit={handleRegister} className={s.form}>
           <label className={s.label}>
             Логин
