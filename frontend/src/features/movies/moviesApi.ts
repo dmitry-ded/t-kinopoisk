@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { mockMoviesById } from "../../mock/movies";
+import type { Movie } from "./types";
 
 const poiskkino = axios.create({
   baseURL: import.meta.env.VITE_POISKKINO_BASE_URL,
@@ -8,7 +9,7 @@ const poiskkino = axios.create({
   },
 });
 
-export async function getMovieById(id: number) {
+export async function getMovieById(id: number): Promise<Movie | undefined> {
   try {
     const res = await poiskkino.get(`/v1.4/movie/${id}`);
     return res.data;
@@ -18,6 +19,7 @@ export async function getMovieById(id: number) {
     
     if (status === 403) {
       const mockMovie = mockMoviesById[id];
+      
       if (mockMovie) return mockMovie;
     }
   }

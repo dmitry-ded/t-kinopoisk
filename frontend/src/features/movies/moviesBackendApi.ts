@@ -2,6 +2,7 @@ import axios, { isAxiosError } from "axios";
 import { getUrl } from "../auth/authApi";
 
 const URL = getUrl();
+const API_PREFIX = '/api/movies/';
 
 const api = axios.create({
   baseURL: URL,
@@ -27,13 +28,13 @@ export type RatingStatsResponse = {
 };
 
 export const MoviesApiPath = {
-  Favorite: (movieId: number) => `/api/movies/${movieId}/favorite`,
-  Rating: (movieId: number) => `/api/movies/${movieId}/rating`,
-  RatingStats: (movieId: number) => `/api/movies/${movieId}/rating/stats`,
-  Favorites: "/api/movies/favorites",
+  Favorite: (movieId: number) => `${API_PREFIX}${movieId}/favorite`,
+  Rating: (movieId: number) => `${API_PREFIX}${movieId}/rating`,
+  RatingStats: (movieId: number) => `${API_PREFIX}${movieId}/rating/stats`,
+  Favorites: `${API_PREFIX}favorites`,
 }
 
-export async function addFavoriteRequest(movieId: number): Promise<FavoriteResponse> {
+export const addFavorite = async (movieId: number): Promise<FavoriteResponse> => {
   try {
     const res = await api.post<FavoriteResponse>(MoviesApiPath.Favorite(movieId));
     return res.data;
@@ -42,7 +43,7 @@ export async function addFavoriteRequest(movieId: number): Promise<FavoriteRespo
   }
 }
 
-export async function removeFavoriteRequest(movieId: number): Promise<void> {
+export const removeFavorite = async (movieId: number): Promise<void> => {
   try {
     await api.delete(MoviesApiPath.Favorite(movieId));
   } catch (e) {
@@ -50,7 +51,7 @@ export async function removeFavoriteRequest(movieId: number): Promise<void> {
   }
 }
 
-export async function listFavoriteRequest(): Promise<FavoriteResponse[]> {
+export const listFavorite = async (): Promise<FavoriteResponse[]> => {
   try {
     const res = await api.get<FavoriteResponse[]>(MoviesApiPath.Favorites);
     return res.data;
@@ -59,7 +60,7 @@ export async function listFavoriteRequest(): Promise<FavoriteResponse[]> {
   }
 }
 
-export async function setRatingRequest(movieId: number, rating: number): Promise<RatingResponse> {
+export const setRating = async (movieId: number, rating: number): Promise<RatingResponse> => {
   try {
     const res = await api.put<RatingResponse>(MoviesApiPath.Rating(movieId), { rating });
     return res.data;
@@ -68,7 +69,7 @@ export async function setRatingRequest(movieId: number, rating: number): Promise
   }
 }
 
-export async function getRatingOrNull(movieId: number): Promise<RatingResponse> {
+export const getRating = async (movieId: number): Promise<RatingResponse | null> => {
   try {
     const res = await api.get<RatingResponse>(MoviesApiPath.Rating(movieId));
     return res.data;
@@ -80,7 +81,7 @@ export async function getRatingOrNull(movieId: number): Promise<RatingResponse> 
   }
 }
 
-export async function deleteRatingRequest(movieId: number): Promise<void> {
+export const deleteRating = async (movieId: number): Promise<void> => {
   try {
     await api.delete(MoviesApiPath.Rating(movieId));
   } catch (e) {
@@ -89,7 +90,7 @@ export async function deleteRatingRequest(movieId: number): Promise<void> {
 }
 
 
-export async function getRatingStatsRequest(movieId: number): Promise<RatingStatsResponse> {
+export const getRatingStats = async (movieId: number): Promise<RatingStatsResponse> => {
   try {
     const res = await api.get<RatingStatsResponse>(MoviesApiPath.RatingStats(movieId));
     return res.data;

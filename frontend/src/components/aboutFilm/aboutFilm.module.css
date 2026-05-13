@@ -1,0 +1,58 @@
+.about {
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px solid #ffffff14;
+}
+
+.aboutTitle {
+  margin: 0 0 14px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: minmax(120px, 160px) 1fr;
+  gap: 10px 20px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.meta dt {
+  margin: 0;
+  color: #ffffff73;
+  font-weight: 400;
+}
+
+.meta dd {
+  margin: 0;
+  color: #ffffffe6;
+}
+
+.meta dd a,
+.link {
+  color: #6bb3ff;
+  text-decoration: none;
+}
+
+.meta dd a:hover,
+.link:hover {
+  text-decoration: underline;
+}
+
+.subline {
+  margin: 0;
+  font-size: 15px;
+  color: #ffffffa6;
+}
+
+.subline span {
+  margin-left: 8px;
+  padding: 2px 6px;
+  border: 1px solid #ffffff40;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}

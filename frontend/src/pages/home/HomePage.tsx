@@ -30,8 +30,6 @@ const HomePage = () => {
     load();
   }, []);
 
-  console.log(movies);
-
   return (
     <div className={s.home}>
       <div className={s.cardFilms}>

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { addFavoriteRequest, removeFavoriteRequest } from '../../features/movies/moviesBackendApi';
 import favoriteOutline from '../../assets/Favorite.svg';
 import favoriteFill from '../../assets/FavoriteFill.svg';
 import s from './favoriteButton.module.css';
+import cn from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   addFavorites,
@@ -38,17 +38,19 @@ const FavoriteButton = ({ movieId }: Props) => {
     }
   };
 
+  const iconFavorite = loading ? favoriteOutline : isFavorite ? favoriteFill : favoriteOutline;
+
   return (
     <div className={s.wrap}>
       <button
         type="button"
-        className={`${s.btn} ${isFavorite ? s.btnActive : ''}`}
-        onClick={() => handleToggle()}
+        className={cn(s.btn, isFavorite ? s.btnActive : '')}
+        onClick={handleToggle}
         disabled={loading}
       >
         <img
           className={s.icon}
-          src={loading ? favoriteOutline : isFavorite ? favoriteFill : favoriteOutline}
+          src={iconFavorite}
           alt=""
           draggable={false}
         />

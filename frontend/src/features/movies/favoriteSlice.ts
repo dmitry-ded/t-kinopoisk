@@ -1,6 +1,6 @@
 import { createAppSlice } from "../../app/createAppSlice";
 import { RequestStatus } from "../auth/authSlice";
-import { addFavoriteRequest, listFavoriteRequest, removeFavoriteRequest } from "./moviesBackendApi";
+import { addFavorite, listFavorite, removeFavorite } from "./moviesBackendApi";
 
 interface FavoriteState {
   ids: number[];
@@ -26,7 +26,7 @@ export const favoritesSlice = createAppSlice({
     fetchFavorites: create.asyncThunk(
       async (_, { rejectWithValue }) => {
         try {
-          const list = await listFavoriteRequest();
+          const list = await listFavorite();
           return list.map((el) => el.movieId);
         } catch (e) {
           const message = e instanceof Error ? e.message : "Ошибка загрузки избранного";
@@ -51,7 +51,7 @@ export const favoritesSlice = createAppSlice({
     addFavorites: create.asyncThunk(
       async (movieId: number, { rejectWithValue }) => {
         try {
-          await addFavoriteRequest(movieId);
+          await addFavorite(movieId);
           return movieId;
         } catch (e) {
           const message = e instanceof Error ? e.message : "Ошибка добавления в избранное";
@@ -77,7 +77,7 @@ export const favoritesSlice = createAppSlice({
     removeFavorites: create.asyncThunk(
       async (movieId: number, { rejectWithValue }) => {
         try {
-          await removeFavoriteRequest(movieId);
+          await removeFavorite(movieId);
           return movieId;
         } catch (e) {
           const message = e instanceof Error ? e.message : "Ошибка удаления из избранного";

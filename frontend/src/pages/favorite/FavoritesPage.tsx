@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { listFavoriteRequest } from '../../features/movies/moviesBackendApi';
+import { listFavorite } from '../../features/movies/moviesBackendApi';
 import { getMovieById } from '../../features/movies/moviesApi';
 import s from './favoritesPage.module.css';
 import { Link } from 'react-router-dom';
@@ -26,7 +26,7 @@ const FavoritesPage = () => {
     const loadFavorites = async () => {
       setLoading(true);
       try {
-        const res = await listFavoriteRequest();
+        const res = await listFavorite();
         const movies = await Promise.allSettled(res.map((el) => getMovieById(el.movieId)));
         const loadedMovies = movies
           .filter((r): r is PromiseFulfilledResult<MovieCard> => r.status === 'fulfilled')
@@ -38,8 +38,6 @@ const FavoritesPage = () => {
     };
     loadFavorites();
   }, []);
-
-  console.log(favorites);
 
   if (loading) {
     return (
@@ -70,8 +68,8 @@ const FavoritesPage = () => {
 
       <div className={s.grid}>
         {favorites.map((movie) => (
-          <Link to={`/card/${movie.id}`} className={s.goToCard}>
-            <div key={movie.id} className={s.card}>
+          <Link to={`/card/${movie.id}`} key={movie.id} className={s.goToCard}>
+            <div className={s.card}>
               <div className={s.posterWrap}>
                 {movie.poster?.previewUrl || movie.poster?.url ? (
                   <img

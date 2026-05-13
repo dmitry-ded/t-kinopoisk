@@ -1,0 +1,22 @@
+export type Movie = {
+  id?: number;
+  name?: string;
+  alternativeName?: string | null;
+  year?: number;
+  ageRating?: number;
+  shortDescription?: string;
+  description?: string;
+  slogan?: string | null;
+  movieLength?: number;
+  countries?: { name?: string }[];
+  genres?: { name?: string }[];
+  persons?: { name?: string; profession?: string }[];
+  rating?: { kp?: number };
+  votes?: { kp?: number };
+  poster?: { previewUrl?: string; url?: string };
+  premiere?: { world?: string };
+  fees?: { world?: { value?: number; currency?: string } };
+  budget?: { value?: number; currency?: string };
+  top250?: number | null;
+  externalId?: { imdb?: string | null };
+};

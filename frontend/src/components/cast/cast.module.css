@@ -1,0 +1,33 @@
+.cast {
+  padding-top: 4px;
+}
+
+.castHead {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.castList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.castList li {
+  list-style: none;
+  font-size: 14px;
+  color: #ffffffb3;
+  line-height: 1.35;
+}
+
+.castMore {
+  margin: 12px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ff6b35;
+}
