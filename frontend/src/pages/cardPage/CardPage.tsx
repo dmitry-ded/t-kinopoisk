@@ -11,6 +11,7 @@ import { getRatingStats, type RatingStatsResponse } from '../../features/movies/
 import type { Movie } from '../../features/movies/types';
 import AboutFilm from '../../components/aboutFilm/AboutFilm';
 import Cast from '../../components/cast/Cast';
+import ModalAddMovie from '../../components/modalAddMovie/ModalAddMovie';
 
 const CardPage = () => {
   const { movieId } = useParams<{ movieId: string }>();
@@ -24,6 +25,7 @@ const CardPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [ratingStats, setRatingStats] = useState<RatingStatsResponse | null>(null);
+  const [listModalOpen, setListModalOpen] = useState(false);
 
   useEffect(() => {
     if (!isValidId) return;
@@ -133,9 +135,15 @@ const CardPage = () => {
             </div>
           </div>
 
-          <button type="button" className={s.sideBtn}>
-            Добавить в папку
-          </button>
+          {isAuth ? (
+            <button type="button" className={s.sideBtn} onClick={() => setListModalOpen(true)}>
+              Добавить в папку
+            </button>
+          ) : (
+            <Link className={s.rateGuestLink} to="/login">
+              Войдите в аккаунт.
+            </Link>
+          )}
         </aside>
 
         <div className={s.center}>
@@ -185,6 +193,12 @@ const CardPage = () => {
           <Cast movie={movie} />
         </aside>
       </div>
+
+      <ModalAddMovie
+        isOpen={listModalOpen}
+        onClose={() => setListModalOpen(false)}
+        movieId={movie.id ?? resId}
+      />
     </div>
   );
 };

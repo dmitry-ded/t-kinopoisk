@@ -67,6 +67,18 @@
     background 0.2s ease;
 }
 
+.rateGuestLink {
+  color: #ff6b35;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.rateGuestLink:hover {
+  color: #ff8f66;
+  text-decoration: underline;
+}
+
 .sideBtn:hover {
   border-color: #ffffff55;
   background: #2a2a2a;

@@ -19,6 +19,7 @@ export async function getMovieById(id: number): Promise<Movie | undefined> {
     
     if (status === 403) {
       const mockMovie = mockMoviesById[id];
+      if (mockMovie) return mockMovie;
       
       if (mockMovie) return mockMovie;
     }

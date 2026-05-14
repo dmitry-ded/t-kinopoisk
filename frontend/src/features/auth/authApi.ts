@@ -9,6 +9,7 @@ export const getUrl = () => {
 }
 
 const URL = getUrl();
+const API_PREFIX = '/api/auth/';
 
 const api = axios.create({
   baseURL: URL,
@@ -38,14 +39,14 @@ export type MePayload = {
   login: string | null;
 };
 
-export enum AuthApiPath {
-  Login = "/api/auth/login",
-  Register = "/api/auth/register",
-  Logout = "/api/auth/logout",
-  Me = "/api/auth/me",
+export const AuthApiPath = {
+  Login:`${API_PREFIX}login`,
+  Register: `${API_PREFIX}register`,
+  Logout: `${API_PREFIX}logout`,
+  Me: `${API_PREFIX}me`,
 }
 
-async function requestAuth(url: string, payload: AuthPayload): Promise<AuthOkResponse> {
+const requestAuth = async (url: string, payload: AuthPayload): Promise<AuthOkResponse> => {
   try {
     const res = await api.post<AuthOkResponse>(url, payload);
     return res.data;
@@ -56,7 +57,7 @@ async function requestAuth(url: string, payload: AuthPayload): Promise<AuthOkRes
   }
 }
 
-export async function meRequest(): Promise<AuthUser | null> {
+export const meRequest = async (): Promise<AuthUser | null> => {
   const res = await api.get<MePayload>(AuthApiPath.Me);
   const data = res.data
 
@@ -69,14 +70,14 @@ export async function meRequest(): Promise<AuthUser | null> {
   return { id: data.id, login: data.login };
 }
 
-export async function logoutRequest(): Promise<void> {
+export const logoutRequest = async (): Promise<void> => {
   await api.post(AuthApiPath.Logout);
 }
 
-export async function loginRequest(payload: AuthPayload): Promise<AuthOkResponse> {
+export const loginRequest = async (payload: AuthPayload): Promise<AuthOkResponse> => {
   return requestAuth(AuthApiPath.Login, payload);
 }
 
-export async function registerRequest(payload: AuthPayload): Promise<AuthOkResponse> {
+export const registerRequest = async (payload: AuthPayload): Promise<AuthOkResponse> => {
   return requestAuth(AuthApiPath.Register, payload);
 }

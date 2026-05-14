@@ -44,15 +44,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         String jwt = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            jwt = authHeader.substring(7).trim();
-        }
-        if ((jwt == null || jwt.isBlank()) && request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
-                if ("auth_token".equals(cookie.getName())) {
-                    jwt = cookie.getValue();
-                    break;
-                }
+            String bearer = authHeader.substring(7).trim();
+            if (!bearer.isBlank()) {
+                jwt = bearer;
             }
+        }
+        if (jwt == null || jwt.isBlank()) {
+            jwt = readAuthTokenCookie(request);
         }
         if (jwt == null || jwt.isBlank()) {
             filterChain.doFilter(request, response);
@@ -96,11 +94,38 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
 
                 log.info("Successfully authenticated user: {}", userLogin);
+            } else {
+                log.warn("JWT present but failed validation (signature, expiry, or subject mismatch) for login: {}", userLogin);
             }
         } catch (Exception e) {
             log.error("JWT Authentication failed: {}", e.getMessage());
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private static String readAuthTokenCookie(HttpServletRequest request) {
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("auth_token".equals(cookie.getName())) {
+                    String v = cookie.getValue();
+                    if (v != null && !v.isBlank()) {
+                        return v;
+                    }
+                }
+            }
+        }
+        String header = request.getHeader("Cookie");
+        if (header == null || header.isBlank()) {
+            return null;
+        }
+        for (String part : header.split(";")) {
+            String t = part.trim();
+            if (t.startsWith("auth_token=")) {
+                String v = t.substring("auth_token=".length()).trim();
+                return v.isEmpty() ? null : v;
+            }
+        }
+        return null;
     }
 }

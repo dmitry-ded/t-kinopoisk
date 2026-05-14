@@ -18,6 +18,9 @@ const Header = () => {
         <Link to="/profile/favorites" className={s.navigate}>
           Мое
         </Link>
+        <Link to="/explore/lists" className={s.navigate}>
+          Сообщество
+        </Link>
         <button type="button" className={s.navigate}>
           Поиск
         </button>
