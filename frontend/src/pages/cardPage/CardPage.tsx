@@ -12,6 +12,7 @@ import type { Movie } from '../../features/movies/types';
 import AboutFilm from '../../components/aboutFilm/AboutFilm';
 import Cast from '../../components/cast/Cast';
 import ModalAddMovie from '../../components/modalAddMovie/ModalAddMovie';
+import MovieComments from '../../components/comments/MovieComments';
 
 const CardPage = () => {
   const { movieId } = useParams<{ movieId: string }>();
@@ -193,6 +194,8 @@ const CardPage = () => {
           <Cast movie={movie} />
         </aside>
       </div>
+
+      <MovieComments movieId={movie.id ?? resId} />
 
       <ModalAddMovie
         isOpen={listModalOpen}

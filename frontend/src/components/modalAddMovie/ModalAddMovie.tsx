@@ -100,7 +100,7 @@ const ModalAddMovie = ({ isOpen, onClose, movieId }: ModalAddMovieProps) => {
 
         <div className={s.body}>
           {loading ? (
-            <p className={s.loading}>Загрузка списков…</p>
+            <p className={s.loading}>Загрузка списков...</p>
           ) : lists.length === 0 ? (
             <>
               <p className={s.emptyHint}>

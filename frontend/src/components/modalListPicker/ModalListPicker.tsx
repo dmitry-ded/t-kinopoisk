@@ -51,7 +51,7 @@ const ModalListPicker = ({
           disabled={saving || selectedListId == null}
           onClick={() => onAdd()}
         >
-          {saving ? 'Добавление…' : 'Добавить'}
+          {saving ? 'Добавление...' : 'Добавить'}
         </button>
         <button type="button" className={s.btnGhost} onClick={onClose} disabled={saving}>
           Отмена

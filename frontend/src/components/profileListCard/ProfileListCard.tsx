@@ -19,6 +19,13 @@ const ProfileListCard = ({
   description,
   onDelete,
 }: ProfileListCardProps) => {
+
+  const handleDelete = () => {
+    if (window.confirm(`Вы уверены, что хотите удалить список ${title}`)) {
+      onDelete(id);
+    }
+  };
+
   return (
     <div className={s.cardWrap}>
       <Link className={s.card} to={`/all-list-movies/${id}`}>
@@ -33,7 +40,7 @@ const ProfileListCard = ({
         </div>
         <p className={s.cardDesc}>{description ?? ''}</p>
       </Link>
-      <button type="button" className={s.cardDeleteBtn} onClick={() => onDelete(id)}>
+      <button type="button" className={s.cardDeleteBtn} onClick={handleDelete}>
         Удалить список
       </button>
     </div>

@@ -1,0 +1,146 @@
+.section {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid #ffffff14;
+}
+
+.title {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.count {
+  margin: 0 0 18px;
+  font-size: 13px;
+  color: #ffffff73;
+}
+
+.loading {
+  padding: 20px 16px;
+  border-radius: 10px;
+  background: #1a1a1a;
+  border: 1px solid #ffffff14;
+  font-size: 14px;
+  color: #ffffff8c;
+  text-align: center;
+}
+
+.errorBanner {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.45;
+  border: 1px solid #7a3f3f;
+  background: rgba(75, 38, 38, 0.85);
+  color: #f4d5d5;
+}
+
+.empty {
+  margin: 0 0 20px;
+  padding: 24px 16px;
+  border-radius: 10px;
+  border: 1px dashed #ffffff22;
+  background: #141414;
+  text-align: center;
+  font-size: 14px;
+  color: #ffffff73;
+  line-height: 1.5;
+}
+
+.list {
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 10px;
+  background: #1a1a1a;
+  border: 1px solid #ffffff14;
+}
+
+.formGuest {
+  padding: 16px;
+  border-radius: 10px;
+  background: #1a1a1a;
+  border: 1px solid #ffffff14;
+  font-size: 14px;
+  color: #ffffff8c;
+  line-height: 1.5;
+}
+
+.guestLink {
+  color: #ff6b35;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.guestLink:hover {
+  color: #ff8f66;
+  text-decoration: underline;
+}
+
+.submitBtn {
+  padding: 9px 18px;
+  border-radius: 8px;
+  border: none;
+  background: #ff6b35;
+  color: #111;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.submitBtn:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.submitBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 88px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ffffff33;
+  background: #121212;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: inherit;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #ff6b35;
+}
+
+.textarea:disabled {
+  opacity: 0.6;
+}
+
+.formFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}

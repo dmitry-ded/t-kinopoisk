@@ -11,7 +11,7 @@ export const getUrl = () => {
 const URL = getUrl();
 const API_PREFIX = '/api/auth/';
 
-const api = axios.create({
+export const api = axios.create({
   baseURL: URL,
   withCredentials: true,
   headers: {

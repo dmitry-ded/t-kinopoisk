@@ -1,16 +1,19 @@
 package org.example.tkinopoisk.controller;
 
+import org.example.tkinopoisk.model.MovieComment;
 import org.example.tkinopoisk.model.User;
 import org.example.tkinopoisk.model.UserFavorite;
 import org.example.tkinopoisk.model.UserMovieRating;
 import org.example.tkinopoisk.repository.UserRepository;
 import org.example.tkinopoisk.security.UserDetailsImpl;
+import org.example.tkinopoisk.service.MovieCommentService;
 import org.example.tkinopoisk.service.UserFavoriteService;
 import org.example.tkinopoisk.service.UserMovieRatingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,6 +33,7 @@ public class MovieController {
     private final UserRepository userRepository;
     private final UserFavoriteService userFavoriteService;
     private final UserMovieRatingService userMovieRatingService;
+    private final MovieCommentService movieCommentService;
 
     public record FavoriteResponse(long movieId, Instant createdAt) {}
 
@@ -37,13 +41,26 @@ public class MovieController {
 
     public record RatingResponse(long movieId, int rating) {}
 
+    public record CommentResponse(
+            long id,
+            long movieId,
+            long userId,
+            String authorLogin,
+            String text,
+            Instant createdAt,
+            Instant updatedAt) {}
+
+    public record CommentTextRequest(String text) {}
+
     public MovieController(
             UserRepository userRepository,
             UserFavoriteService userFavoriteService,
-            UserMovieRatingService userMovieRatingService) {
+            UserMovieRatingService userMovieRatingService,
+            MovieCommentService movieCommentService) {
         this.userRepository = userRepository;
         this.userFavoriteService = userFavoriteService;
         this.userMovieRatingService = userMovieRatingService;
+        this.movieCommentService = movieCommentService;
     }
 
     @PostMapping("/{movieId}/favorite")
@@ -102,6 +119,62 @@ public class MovieController {
     public void deleteRating(@PathVariable Long movieId, Authentication authentication) {
         User user = requireCurrentUser(authentication);
         userMovieRatingService.deleteRating(user, movieId);
+    }
+
+    @GetMapping("/{movieId}/comments")
+    public List<CommentResponse> listComments(@PathVariable Long movieId) {
+        return movieCommentService.listByMovie(movieId).stream()
+                .map(this::toCommentResponse)
+                .toList();
+    }
+
+    @PostMapping("/{movieId}/comments")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CommentResponse createComment(
+            @PathVariable Long movieId,
+            @RequestBody CommentTextRequest body,
+            Authentication authentication) {
+        User user = requireCurrentUser(authentication);
+        if (body == null || body.text() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "text is required");
+        }
+        MovieComment saved = movieCommentService.create(user, movieId, body.text());
+        return toCommentResponse(saved);
+    }
+
+    @PatchMapping("/{movieId}/comments/{commentId}")
+    public CommentResponse patchComment(
+            @PathVariable Long movieId,
+            @PathVariable Long commentId,
+            @RequestBody CommentTextRequest body,
+            Authentication authentication) {
+        User user = requireCurrentUser(authentication);
+        if (body == null || body.text() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "text is required");
+        }
+        MovieComment updated = movieCommentService.update(user, movieId, commentId, body.text());
+        return toCommentResponse(updated);
+    }
+
+    @DeleteMapping("/{movieId}/comments/{commentId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteComment(
+            @PathVariable Long movieId,
+            @PathVariable Long commentId,
+            Authentication authentication) {
+        User user = requireCurrentUser(authentication);
+        movieCommentService.delete(user, movieId, commentId);
+    }
+
+    private CommentResponse toCommentResponse(MovieComment comment) {
+        return new CommentResponse(
+                comment.getId(),
+                comment.getMovieId(),
+                comment.getUser().getId(),
+                comment.getUser().getLogin(),
+                comment.getText(),
+                comment.getCreatedAt(),
+                comment.getUpdatedAt());
     }
 
     private User requireCurrentUser(Authentication authentication) {

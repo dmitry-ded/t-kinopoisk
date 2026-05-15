@@ -84,7 +84,7 @@ const ProfilePage = () => {
       <h2 className={s.sectionTitle}>Мои списки</h2>
 
       {loading ? (
-        <p className={s.loading}>Загрузка списков…</p>
+        <p className={s.loading}>Загрузка списков...</p>
       ) : listsMovies.length === 0 ? (
         <div className={s.empty}>
           <p className={s.emptyTitle}>Пока нет ни одного списка</p>

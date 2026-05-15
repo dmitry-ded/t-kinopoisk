@@ -132,7 +132,7 @@ const AllListMovies = () => {
       </Link>
 
       {loading ? (
-        <p className={s.loadingState}>Загрузка списка…</p>
+        <p className={s.loadingState}>Загрузка списка...</p>
       ) : loadError ? (
         <div className={s.errorBanner}>{loadError}</div>
       ) : list ? (
