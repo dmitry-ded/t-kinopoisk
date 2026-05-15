@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import s from './profilePage.module.css';
 import { useEffect, useState } from 'react';
 import { deleteMovieList, listMyMovieLists } from '../../features/movieList/movieListApi';
-import cn from 'classnames';
+import ProfileListCard from '../../components/profileListCard/ProfileListCard';
 
 type ListPreview = {
   id: number;
@@ -39,7 +39,7 @@ const ProfilePage = () => {
     setDeleteError(null);
     try {
       await deleteMovieList(id);
-      setListsMovies(prev => prev.filter(list => list.id !== id));
+      setListsMovies((prev) => prev.filter((list) => list.id !== id));
     } catch (e) {
       setDeleteError(e instanceof Error ? e.message : 'Не удалось удалить список фильмов');
     }
@@ -97,27 +97,15 @@ const ProfilePage = () => {
         <>
           <div className={s.grid}>
             {listsMovies.map((list) => (
-              <div key={list.id} className={s.cardWrap}>
-                <Link className={s.card} to={`/all-list-movies/${list.id}`}>
-                  <h3 className={s.cardTitle}>{list.title}</h3>
-                  <div className={s.cardMeta}>
-                    <span className={s.count}>
-                       Фильмов: <strong>{list.itemCount}</strong>
-                    </span>
-                    <span className={cn(s.badge, list.isPublic ? s.badgePublic : s.badgePrivate)}>
-                      {list.isPublic ? 'Публичный' : 'Приватный'}
-                    </span>
-                  </div>
-                  <p className={s.cardDesc}>{list.description ?? ''}</p>
-                </Link>
-                <button
-                  type="button"
-                  className={s.cardDeleteBtn}
-                  onClick={() => handleDeleteListMovies(list.id)}
-                >
-                  Удалить список
-                </button>
-              </div>
+              <ProfileListCard
+                key={list.id}
+                id={list.id}
+                title={list.title}
+                itemCount={list.itemCount}
+                isPublic={list.isPublic}
+                description={list.description}
+                onDelete={handleDeleteListMovies}
+              />
             ))}
           </div>
           {deleteError ? <div className={s.errorMessage}>{deleteError}</div> : null}

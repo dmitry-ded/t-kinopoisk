@@ -1,18 +1,22 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { isAxiosError } from 'axios';
 import {
   addMovieToList,
   listMyMovieLists,
   type MovieListRequest,
 } from '../../features/movieList/movieListApi';
 import s from './modalAddMovie.module.css';
+import ModalListPicker from '../modalListPicker/ModalListPicker';
+import { getErrorMessage } from '../../utils/errorHandler';
+import cn from 'classnames';
 
 export type ModalAddMovieProps = {
   isOpen: boolean;
   onClose: () => void;
   movieId: number;
 };
+
+const MODAL_CLOSE_DELAY = 600;
 
 const ModalAddMovie = ({ isOpen, onClose, movieId }: ModalAddMovieProps) => {
   const [lists, setLists] = useState<MovieListRequest[]>([]);
@@ -77,19 +81,9 @@ const ModalAddMovie = ({ isOpen, onClose, movieId }: ModalAddMovieProps) => {
       setSuccess('Фильм добавлен в список');
       window.setTimeout(() => {
         onClose();
-      }, 600);
+      }, MODAL_CLOSE_DELAY);
     } catch (e) {
-      if (isAxiosError(e) && e.response?.status === 409) {
-        setError('Этот фильм уже есть в выбранном списке');
-      } else if (isAxiosError(e) && e.response?.status === 401) {
-        setError('Нужно войти в аккаунт');
-      } else if (isAxiosError(e) && e.response?.status === 403) {
-        setError('Нет доступа. Обновите страницу и войдите снова.');
-      } else if (e instanceof Error) {
-        setError(e.message);
-      } else {
-        setError('Не удалось добавить в список');
-      }
+      setError(getErrorMessage(e));
     } finally {
       setSaving(false);
     }
@@ -117,51 +111,18 @@ const ModalAddMovie = ({ isOpen, onClose, movieId }: ModalAddMovieProps) => {
               </Link>
             </>
           ) : (
-            <>
-              <ul className={s.list}>
-                {lists.map((list) => (
-                  <li key={list.id} className={s.row}>
-                    <label className={s.label}>
-                      <input
-                        type="radio"
-                        name="movie-list-pick"
-                        className={s.radio}
-                        checked={selectedListId === list.id}
-                        onChange={() => setSelectedListId(list.id)}
-                      />
-                      <span className={s.rowText}>
-                        <span className={s.rowTitle}>{list.title}</span>
-                        <span className={s.rowMeta}>
-                          {' '}
-                          Фильмов: {list.itemCount}
-                          {list.isPublic ? ' публичный' : ' приватный'}
-                        </span>
-                      </span>
-                    </label>
-                  </li>
-                ))}
-              </ul>
-              <div className={s.actions}>
-                <button
-                  type="button"
-                  className={s.btnPrimary}
-                  disabled={saving || selectedListId == null}
-                  onClick={() => handleAdd()}
-                >
-                  {saving ? 'Добавление…' : 'Добавить'}
-                </button>
-                <button type="button" className={s.btnGhost} onClick={onClose} disabled={saving}>
-                  Отмена
-                </button>
-              </div>
-              <Link className={s.createLink} to="/create-list" onClick={onClose}>
-                + Новый список
-              </Link>
-            </>
+            <ModalListPicker
+              lists={lists}
+              selectedListId={selectedListId}
+              onSelectList={setSelectedListId}
+              saving={saving}
+              onAdd={handleAdd}
+              onClose={onClose}
+            />
           )}
 
-          {error ? <p className={s.error}>{error}</p> : null}
-          {success ? <p className={s.success}>{success}</p> : null}
+          {error ? <p className={cn(s.message, s.error)}>{error}</p> : null}
+          {success ? <p className={cn(s.message, s.success)}>{success}</p> : null}
         </div>
       </div>
     </div>

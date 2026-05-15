@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { isAxiosError } from 'axios';
 import {
   fetchCommunityLists,
   type CommunityUserListsResponse,
 } from '../../features/movieList/movieListApi';
 import s from './communityLists.module.css';
+import UserCard from '../../components/userCard/UserCard';
 
 const CommunityLists = () => {
   const [users, setUsers] = useState<CommunityUserListsResponse[]>([]);
@@ -75,18 +75,7 @@ const CommunityLists = () => {
       {users.length > 0 ? (
         <div className={s.grid}>
           {users.map((user) => (
-            <article key={user.userId} className={s.userCard}>
-              <h2 className={s.username}>{user.login}</h2>
-              <p className={s.userMeta}>id: {user.userId}</p>
-              <div className={s.listsContainer}>
-                {user.lists.map((list) => (
-                  <Link key={list.id} to={`/all-list-movies/${list.id}`} className={s.listItem}>
-                    <span className={s.listTitle}>{list.title}</span>
-                    <span className={s.listCount}>В списке: {list.itemCount}</span>
-                  </Link>
-                ))}
-              </div>
-            </article>
+            <UserCard key={user.userId} user={user} />
           ))}
         </div>
       ) : null}

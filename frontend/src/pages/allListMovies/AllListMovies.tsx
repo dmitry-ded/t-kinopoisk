@@ -11,6 +11,7 @@ import { getMovieById } from '../../features/movies/moviesApi';
 import type { Movie } from '../../features/movies/types';
 import { useAppSelector } from '../../app/hooks';
 import { selectIsAuthenticated, selectUser } from '../../features/auth/authSlice';
+import MovieListItem from '../../components/movieListItem/MovieListItem';
 
 const AllListMovies = () => {
   const { listId: listIdParam } = useParams<{ listId: string }>();
@@ -174,46 +175,16 @@ const AllListMovies = () => {
             </p>
           ) : (
             <ul className={s.list}>
-              {list.items.map((m) => {
-                const movie = moviesById[m.movieId];
-
-                return (
-                  <li key={m.movieId} className={s.movieRow}>
-                    {movie?.poster?.previewUrl || movie?.poster?.url ? (
-                      <img
-                        className={s.posterImg}
-                        src={movie.poster.previewUrl ?? movie.poster.url}
-                        alt=""
-                      />
-                    ) : (
-                      <div className={s.poster} />
-                    )}
-                    <div className={s.body}>
-                      <p className={s.movieTitle}>
-                        {movie?.name ?? movie?.alternativeName ?? `Фильм ${m.movieId}`}
-                      </p>
-                      <p className={s.movieMeta}>
-                        {movie?.year ?? '-'} {movie?.genres?.map((el) => el.name).join(', ')}
-                      </p>
-                    </div>
-                    <div className={s.rowActions}>
-                      <Link className={s.link} to={`/card/${m.movieId}`}>
-                        Карточка
-                      </Link>
-                      {isOwner && (
-                        <button
-                          type="button"
-                          className={s.removeBtn}
-                          disabled={removingMovieId === m.movieId}
-                          onClick={() => handleRemoveMovie(m.movieId)}
-                        >
-                          {removingMovieId === m.movieId ? 'Удаление...' : 'Удалить из списка'}
-                        </button>
-                      )}
-                    </div>
-                  </li>
-                );
-              })}
+              {list.items.map((m) => (
+                <MovieListItem
+                  key={m.movieId}
+                  movie={moviesById[m.movieId]}
+                  movieId={m.movieId}
+                  isOwner={isOwner}
+                  isRemoving={removingMovieId === m.movieId}
+                  onRemove={handleRemoveMovie}
+                />
+              ))}
             </ul>
           )}
           {removeError && <div className={s.errorBanner}>{removeError}</div>}
