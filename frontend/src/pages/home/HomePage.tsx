@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import s from './homePage.module.css';
 import { getMovieById } from '../../features/movies/moviesApi';
-import { Link } from 'react-router-dom';
 import type { Movie } from '../../features/movies/types';
+import MovieCard from '../../components/movieCard/MovieCard';
 
 const HomePage = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -33,17 +33,7 @@ const HomePage = () => {
     <div className={s.home}>
       <div className={s.cardFilms}>
         {movies.map((el) => (
-          <div key={el.id} className={s.card}>
-            <Link className={s.cardLink} to={`/card/${el.id}`}>
-              <img className={s.poster} src={el.poster?.previewUrl ?? ''} alt={el.name} />
-              <strong className={s.rating}>{el.rating?.kp != null ? (Math.round(el.rating?.kp * 10) / 10) : '-'}</strong>
-              <h4 className={s.title}>{el.name}</h4>
-              <p className={s.meta}>
-                {el.year}
-                {el.genres?.length ? `, ${el.genres.map((g) => g.name).join(', ')}` : ''}
-              </p>
-            </Link>
-          </div>
+          <MovieCard key={el.id} movie={el} />
         ))}
       </div>
     </div>

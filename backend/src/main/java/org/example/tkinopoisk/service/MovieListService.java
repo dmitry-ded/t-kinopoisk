@@ -42,9 +42,6 @@ public class MovieListService {
         return movieListRepository.findAllByUserIdOrderByCreated(user.getId());
     }
 
-    /**
-     * Все пользователи, у которых есть хотя бы один публичный список, с полным списком их публичных подборок.
-     */
     @Transactional(readOnly = true)
     public List<CommunityUserGroup> listPublicCommunityGroupedByUser() {
         List<MovieList> rows = movieListRepository.findAllPublicWithUserOrderByUserListCreated();

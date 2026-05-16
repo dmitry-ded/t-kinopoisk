@@ -75,6 +75,25 @@ public class UserMovieRatingService {
 
     public record RatingStats(Double average, long count) {}
 
+    public record LeaderboardEntry(long movieId, double average, long count) {}
+
+    @Transactional(readOnly = true)
+    public List<LeaderboardEntry> getLeaderboard(String sort) {
+        boolean ascending = "asc".equalsIgnoreCase(sort);
+        List<Object[]> rows = ascending
+                ? userMovieRatingRepository.findLeaderboardByAverageAsc()
+                : userMovieRatingRepository.findLeaderboardByAverageDesc();
+        return rows.stream().map(UserMovieRatingService::toLeaderboardEntry).toList();
+    }
+
+    private static LeaderboardEntry toLeaderboardEntry(Object[] row) {
+        long movieId = ((Number) row[0]).longValue();
+        double avg = ((Number) row[1]).doubleValue();
+        long count = ((Number) row[2]).longValue();
+        double rounded = Math.round(avg * 10.0) / 10.0;
+        return new LeaderboardEntry(movieId, rounded, count);
+    }
+
     private static void validateMovieId(Long movieId) {
         if (movieId == null || movieId <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid movie id");

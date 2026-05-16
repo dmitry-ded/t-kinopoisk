@@ -20,6 +20,7 @@ import { clearFavorites, fetchFavorites } from './features/movies/favoriteSlice'
 import CreateMovieListPage from './pages/createMovieList/CreateMovieListPage';
 import AllListMovies from './pages/allListMovies/AllListMovies';
 import CommunityLists from './pages/communityLists/CommunityLists';
+import UserRatedPage from './pages/userRated/UserRatedPage';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -48,6 +49,7 @@ function App() {
         <Route path="/card/:movieId" element={<CardPage />} />
         <Route path="/explore/lists" element={<CommunityLists />} />
         <Route path="/all-list-movies/:listId" element={<AllListMovies />} />
+        <Route path="/user-rated" element={<UserRatedPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/profile/favorites" element={<FavoritesPage />} />

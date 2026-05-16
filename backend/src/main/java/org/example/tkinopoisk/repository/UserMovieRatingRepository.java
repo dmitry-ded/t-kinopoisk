@@ -13,4 +13,20 @@ public interface UserMovieRatingRepository extends JpaRepository<UserMovieRating
 
     @Query("select avg(r.rating), count(r) from UserMovieRating r where r.movieId = :movieId")
     List<Object[]> aggregateByMovieId(@Param("movieId") Long movieId);
+
+    @Query("""
+            select r.movieId, avg(r.rating), count(r)
+            from UserMovieRating r
+            group by r.movieId
+            order by avg(r.rating) desc
+            """)
+    List<Object[]> findLeaderboardByAverageDesc();
+
+    @Query("""
+            select r.movieId, avg(r.rating), count(r)
+            from UserMovieRating r
+            group by r.movieId
+            order by avg(r.rating) asc
+            """)
+    List<Object[]> findLeaderboardByAverageAsc();
 }

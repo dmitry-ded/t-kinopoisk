@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -87,6 +88,19 @@ public class MovieController {
     }
 
     public record RatingStatsResponse(Double average, long count) {}
+
+    public record LeaderboardEntryResponse(long movieId, double average, long count) {}
+
+    @GetMapping("/ratings/leaderboard")
+    public List<LeaderboardEntryResponse> getRatingsLeaderboard(
+            @RequestParam(defaultValue = "desc") String sort) {
+        if (!"asc".equalsIgnoreCase(sort) && !"desc".equalsIgnoreCase(sort)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "sort must be asc or desc");
+        }
+        return userMovieRatingService.getLeaderboard(sort).stream()
+                .map(e -> new LeaderboardEntryResponse(e.movieId(), e.average(), e.count()))
+                .toList();
+    }
 
     @GetMapping("/{movieId}/rating/stats")
     public RatingStatsResponse getRatingStats(@PathVariable Long movieId) {
