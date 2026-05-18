@@ -1,4 +1,4 @@
-import axios, { isAxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { getUrl } from "../auth/authApi";
 
 const URL = getUrl();
@@ -39,7 +39,7 @@ export const addFavorite = async (movieId: number): Promise<FavoriteResponse> =>
     const res = await api.post<FavoriteResponse>(MoviesApiPath.Favorite(movieId));
     return res.data;
   } catch (e) {
-    throw new Error(e, "Ошибка добавления в избранное");
+    throw new AxiosError(e, "Ошибка добавления в избранное");
   }
 }
 
@@ -47,7 +47,7 @@ export const removeFavorite = async (movieId: number): Promise<void> => {
   try {
     await api.delete(MoviesApiPath.Favorite(movieId));
   } catch (e) {
-    throw new Error(e, "Ошибка удаления из избранного");
+    throw new AxiosError(e, "Ошибка удаления из избранного");
   }
 }
 
@@ -56,7 +56,7 @@ export const listFavorite = async (): Promise<FavoriteResponse[]> => {
     const res = await api.get<FavoriteResponse[]>(MoviesApiPath.Favorites);
     return res.data;
   } catch (e) {
-    throw new Error(e, "Ошибка загрузки избранного");
+    throw new AxiosError(e, "Ошибка загрузки избранного");
   }
 }
 
@@ -65,7 +65,8 @@ export const setRating = async (movieId: number, rating: number): Promise<Rating
     const res = await api.put<RatingResponse>(MoviesApiPath.Rating(movieId), { rating });
     return res.data;
   } catch (e) {
-    throw new Error(e, "Ошибка сохранения оценки");
+    throw new AxiosError(e, "Ошибка сохранения оценки");
+    
   }
 }
 
@@ -74,10 +75,7 @@ export const getRating = async (movieId: number): Promise<RatingResponse | null>
     const res = await api.get<RatingResponse>(MoviesApiPath.Rating(movieId));
     return res.data;
   } catch (e) {
-    if (isAxiosError(e) && e.response?.status === 404) {
-      return null;
-    }
-    throw e;
+    throw new AxiosError(e, "Ошибка получения оценки");
   }
 }
 
@@ -85,16 +83,15 @@ export const deleteRating = async (movieId: number): Promise<void> => {
   try {
     await api.delete(MoviesApiPath.Rating(movieId));
   } catch (e) {
-    throw new Error(e, "Ошибка удаления оценки");
+    throw new AxiosError(e, "Ошибка удаления оценки");
   }
 }
-
 
 export const getRatingStats = async (movieId: number): Promise<RatingStatsResponse> => {
   try {
     const res = await api.get<RatingStatsResponse>(MoviesApiPath.RatingStats(movieId));
     return res.data;
   } catch (e) {
-    throw new Error(e, "Ошибка загрузки статистики оценок");
+    throw new AxiosError(e, "Ошибка загрузки статистики оценок");
   }
 }

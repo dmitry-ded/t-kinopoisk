@@ -1,4 +1,4 @@
-import axios, { isAxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { getUrl } from '../auth/authApi';
 
 const URL = getUrl();
@@ -32,7 +32,7 @@ export const listMovieComments = async (movieId: number): Promise<MovieComment[]
     const res = await api.get<MovieComment[]>(CommentsApiPath.list(movieId));
     return res.data;
   } catch (e) {
-    throw new Error(e, 'Ошибка загрузки комментариев');
+    throw new AxiosError(e, 'Ошибка загрузки комментариев');
   }
 };
 
@@ -44,7 +44,7 @@ export const createMovieComment = async (
     const res = await api.post<MovieComment>(CommentsApiPath.list(movieId), { text });
     return res.data;
   } catch (e) {
-    throw new Error(e, 'Ошибка отправки комментария');
+    throw new AxiosError(e, 'Ошибка отправки комментария');
   }
 };
 
@@ -57,7 +57,7 @@ export const updateMovieComment = async (
     const res = await api.patch<MovieComment>(CommentsApiPath.one(movieId, commentId), { text });
     return res.data;
   } catch (e) {
-    throw new Error(e, 'Ошибка сохранения комментария');
+    throw new AxiosError(e, 'Ошибка сохранения комментария');
   }
 };
 
@@ -65,6 +65,6 @@ export const deleteMovieComment = async (movieId: number, commentId: number): Pr
   try {
     await api.delete(CommentsApiPath.one(movieId, commentId));
   } catch (e) {
-    throw new Error(e, 'Ошибка удаления комментария');
+    throw new AxiosError(e, 'Ошибка удаления комментария');
   }
 };

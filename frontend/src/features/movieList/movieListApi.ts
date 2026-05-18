@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { getUrl } from "../auth/authApi";
 
 const URL = getUrl();
@@ -72,7 +72,7 @@ export const listMyMovieLists = async (): Promise<MovieListRequest[]> => {
     const res = await api.get<MovieListRequest[]>(MovieListsApiPath.myLists());
     return res.data;
   } catch (e) {
-    throw new Error(e, 'Ошибка загрузки списков');
+    throw new AxiosError(e, 'Ошибка загрузки списков');
   }
 };
 
@@ -81,7 +81,7 @@ export const listMovieListsForUser = async (userId: number): Promise<MovieListRe
     const res = await api.get<MovieListRequest[]>(MovieListsApiPath.userLists(userId));
     return res.data;
   } catch (e) {
-    throw new Error(e, 'Ошибка загрузки списков пользователя');
+    throw new AxiosError(e, 'Ошибка загрузки списков пользователя');
   }
 };
 
@@ -90,7 +90,7 @@ export const fetchCommunityLists = async (): Promise<CommunityUserListsResponse[
     const res = await api.get<CommunityUserListsResponse[]>(MovieListsApiPath.communityLists());
     return res.data;
   } catch (e) {
-    throw new Error(e, 'Ошибка загрузки каталога списков');
+    throw new AxiosError(e, 'Ошибка загрузки каталога списков');
   }
 };
 
@@ -99,7 +99,7 @@ export const createMovieList = async (body: CreateMovieListBody): Promise<MovieL
     const res = await api.post<MovieListRequest>(MovieListsApiPath.myLists(), body);
     return res.data;
   } catch (e) {
-    throw new Error(e, 'Ошибка создания списка');
+    throw new AxiosError(e, 'Ошибка создания списка');
   }
 };
 
@@ -108,7 +108,7 @@ export const getMovieList = async (listId: number): Promise<MovieListDetail> => 
     const res = await api.get<MovieListDetail>(MovieListsApiPath.listById(listId));
     return res.data;
   } catch (e) {
-    throw new Error(e, 'Ошибка загрузки списка');
+    throw new AxiosError(e, 'Ошибка загрузки списка');
   }
 };
 
@@ -117,7 +117,7 @@ export const addMovieToList = async (listId: number, movieId: number): Promise<M
     const res = await api.post<MovieListItemRow>(MovieListsApiPath.listMovies(listId), { movieId });
     return res.data;
   } catch (e) {
-    throw new Error(e, 'Ошибка добавления фильма в список');
+    throw new AxiosError(e, 'Ошибка добавления в список');
   }
 };
 
@@ -125,7 +125,7 @@ export const deleteMovieList = async (listId: number): Promise<void> => {
   try {
     await api.delete(MovieListsApiPath.listById(listId));
   } catch (e) {
-    throw new Error(e, 'Ошибка удаления списка');
+    throw new AxiosError(e, 'Ошибка удаления списка');
   }
 };
 
@@ -133,6 +133,6 @@ export const removeMovieFromList = async (listId: number, movieId: number): Prom
   try {
     await api.delete(MovieListsApiPath.listMovie(listId, movieId));
   } catch (e) {
-    throw new Error(e, 'Ошибка удаления фильма из списка');
+    throw new AxiosError(e, 'Ошибка удаления фильма из списка');
   }
 };

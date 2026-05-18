@@ -19,7 +19,6 @@ const RegisterPage = () => {
       navigate('/profile');
     } catch (e) {
       setMessageError(e instanceof Error ? e.message : 'Не удалось выполнить регистрацию');
-      console.error('reg err: ', e);
     }
   };
 

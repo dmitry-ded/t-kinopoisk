@@ -5,6 +5,7 @@ import { getMovieById } from '../../features/movies/moviesApi';
 import type { Movie } from '../../features/movies/types';
 import MovieCard from '../../components/movieCard/MovieCard';
 import s from './userRatedPage.module.css';
+import { getErrorMessage } from '../../utils/errorHandler';
 
 type RatedMovie = {
   movie: Movie;
@@ -48,7 +49,7 @@ const UserRatedPage = () => {
         }
       } catch (e) {
         if (!cancelled) {
-          setError(e instanceof Error ? e.message : 'Не удалось загрузить рейтинг фильмов');
+          setError(getErrorMessage(e));
           setMovies([]);
         }
       } finally {

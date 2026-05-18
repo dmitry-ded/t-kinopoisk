@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import s from './createMovieList.module.css';
 import { createMovieList } from '../../features/movieList/movieListApi';
+import { getErrorMessage } from '../../utils/errorHandler';
 
 const DESC_MAX = 300;
 
@@ -30,8 +31,8 @@ const CreateMovieListPage = () => {
         isPublic,
       });
       navigate('/profile');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Не удалось создать список');
+    } catch (e) {
+      setError(getErrorMessage(e));
     } finally {
       setSaving(false);
     }

@@ -19,7 +19,6 @@ const LoginPage = () => {
       navigate('/profile');
     } catch (e) {
       setMessageError(e instanceof Error ? e.message : 'Не удалось выполнить вход');
-      console.error('reg err: ', e);
     }
   };
 

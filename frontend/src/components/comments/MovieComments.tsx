@@ -11,7 +11,7 @@ import {
 } from '../../features/comments/commentApi';
 import s from './movieComments.module.css';
 import CommentItem from '../commentItem/CommentItem';
-import { getCommentErrorMessage } from '../../utils/errorHandler';
+import { getErrorMessage } from '../../utils/errorHandler';
 
 const MAX_LENGTH = 2000;
 
@@ -48,7 +48,7 @@ const MovieComments = ({ movieId }: MovieCommentsProps) => {
       } catch (e) {
         if (!cancelled) {
           setComments([]);
-          setLoadError(getCommentErrorMessage(e, 'Не удалось загрузить комментарии'));
+          setLoadError(getErrorMessage(e));
         }
       } finally {
         if (!cancelled) {
@@ -77,7 +77,7 @@ const MovieComments = ({ movieId }: MovieCommentsProps) => {
       setComments((prev) => [created, ...prev]);
       setComm('');
     } catch (e) {
-      setFormError(getCommentErrorMessage(e, 'Не удалось отправить комментарий'));
+      setFormError(getErrorMessage(e));
     } finally {
       setSubmitting(false);
     }
@@ -107,7 +107,7 @@ const MovieComments = ({ movieId }: MovieCommentsProps) => {
       setComments((prev) => prev.map((c) => (c.id === commentId ? updated : c)));
       cancelEdit();
     } catch (e) {
-      setFormError(getCommentErrorMessage(e, 'Не удалось сохранить комментарий'));
+      setFormError(getErrorMessage(e));
     } finally {
       setSavingEdit(false);
     }
@@ -121,7 +121,7 @@ const MovieComments = ({ movieId }: MovieCommentsProps) => {
       setComments((prev) => prev.filter((c) => c.id !== commentId));
       if (editingId === commentId) cancelEdit();
     } catch (e) {
-      setFormError(getCommentErrorMessage(e, 'Не удалось удалить комментарий'));
+      setFormError(getErrorMessage(e));
     } finally {
       setDeletingId(null);
     }
@@ -163,6 +163,7 @@ const MovieComments = ({ movieId }: MovieCommentsProps) => {
                     onSaveEdit={handleSaveEdit}
                     onDelete={handleDelete}
                     setEditText={setEditComm}
+                    maxLength={MAX_LENGTH}
                   />
                 );
               })}

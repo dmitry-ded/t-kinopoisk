@@ -1,0 +1,45 @@
+.itemActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #ffffffd9;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.actionBtn {
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid #ffffff33;
+  background: transparent;
+  color: #ffffffb3;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.actionBtn:hover:not(:disabled) {
+  border-color: #ff6b35;
+  color: #ff6b35;
+}
+
+.actionBtnDanger:hover:not(:disabled) {
+  border-color: #c45c5c;
+  color: #ff9e9e;
+}
+
+.actionBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

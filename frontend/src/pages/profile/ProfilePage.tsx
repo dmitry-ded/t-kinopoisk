@@ -5,6 +5,7 @@ import s from './profilePage.module.css';
 import { useEffect, useState } from 'react';
 import { deleteMovieList, listMyMovieLists } from '../../features/movieList/movieListApi';
 import ProfileListCard from '../../components/profileListCard/ProfileListCard';
+import { getErrorMessage } from '../../utils/errorHandler';
 
 type ListPreview = {
   id: number;
@@ -41,7 +42,7 @@ const ProfilePage = () => {
       await deleteMovieList(id);
       setListsMovies((prev) => prev.filter((list) => list.id !== id));
     } catch (e) {
-      setDeleteError(e instanceof Error ? e.message : 'Не удалось удалить список фильмов');
+      setDeleteError(getErrorMessage(e));
     }
   };
 

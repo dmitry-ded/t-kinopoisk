@@ -46,7 +46,7 @@ const ModalAddMovie = ({ isOpen, onClose, movieId }: ModalAddMovieProps) => {
         if (!cancelled) {
           setLists([]);
           setSelectedListId(null);
-          setError(e instanceof Error ? e.message : 'Не удалось загрузить списки');
+          setError(getErrorMessage(e));
         }
       } finally {
         if (!cancelled) {

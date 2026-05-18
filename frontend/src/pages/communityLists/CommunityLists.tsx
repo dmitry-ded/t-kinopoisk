@@ -6,6 +6,7 @@ import {
 } from '../../features/movieList/movieListApi';
 import s from './communityLists.module.css';
 import UserCard from '../../components/userCard/UserCard';
+import { getErrorMessage } from '../../utils/errorHandler';
 
 const CommunityLists = () => {
   const [users, setUsers] = useState<CommunityUserListsResponse[]>([]);
@@ -25,15 +26,7 @@ const CommunityLists = () => {
         }
       } catch (e) {
         if (!cancelled) {
-          let msg = 'Не удалось загрузить каталог списков';
-          if (isAxiosError(e)) {
-            const body = e.response?.data as { message?: string } | undefined;
-            if (body?.message) msg = body.message;
-            else if (e.message) msg = e.message;
-          } else if (e instanceof Error) {
-            msg = e.message;
-          }
-          setError(msg);
+          setError(getErrorMessage(e));
           setUsers([]);
         }
       } finally {

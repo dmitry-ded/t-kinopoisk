@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { Axios, AxiosError } from 'axios';
 import { getUrl } from '../auth/authApi';
 
 const URL = getUrl();
@@ -22,8 +22,12 @@ export type Leaderboard = {
 export const fetchLeaderboard = async (
   sort: LeaderboardSort = 'desc',
 ): Promise<Leaderboard[]> => {
-  const res = await api.get<Leaderboard[]>('/api/movies/ratings/leaderboard', {
+  try {
+    const res = await api.get<Leaderboard[]>('/api/movies/ratings/leaderboard', {
     params: { sort },
   });
   return res.data;
+  } catch (e) {
+    throw new AxiosError(e, "Ошибка загрузки рейтинга пользователй")
+  }
 };

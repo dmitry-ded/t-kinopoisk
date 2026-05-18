@@ -12,6 +12,7 @@ import type { Movie } from '../../features/movies/types';
 import { useAppSelector } from '../../app/hooks';
 import { selectIsAuthenticated, selectUser } from '../../features/auth/authSlice';
 import MovieListItem from '../../components/movieListItem/MovieListItem';
+import { getErrorMessage } from '../../utils/errorHandler';
 
 const AllListMovies = () => {
   const { listId: listIdParam } = useParams<{ listId: string }>();
@@ -74,7 +75,7 @@ const AllListMovies = () => {
           setList(null);
           setMoviesById({});
           setMoviesLoading(false);
-          setLoadError(e instanceof Error ? e.message : 'Не удалось загрузить список');
+          getErrorMessage(e);
         }
       } finally {
         if (!cancelled) {

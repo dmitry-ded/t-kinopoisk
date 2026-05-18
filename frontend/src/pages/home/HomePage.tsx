@@ -17,7 +17,8 @@ const HomePage = () => {
       const result = await Promise.allSettled(ids.map((id) => getMovieById(id)));
       const loadedMovies = result
         .filter((r): r is PromiseFulfilledResult<Movie> => r.status === 'fulfilled')
-        .map((r) => r.value);
+        .map((r) => r.value)
+        .filter((movie) => movie != null && typeof movie.id === 'number');
       setMovies(loadedMovies);
       setLoading(false);
     };
