@@ -15,8 +15,9 @@ const RegisterPage = () => {
     e.preventDefault();
     setMessageError('');
     try {
-      await dispatch(registerUser({ username: login, password }));
+      await dispatch(registerUser({ username: login, password })).unwrap();
       navigate('/profile');
+      
     } catch (e) {
       setMessageError(e instanceof Error ? e.message : 'Не удалось выполнить регистрацию');
     }

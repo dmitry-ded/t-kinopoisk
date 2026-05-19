@@ -22,6 +22,7 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [listsMovies, setListsMovies] = useState<ListPreview[]>([]);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [logoutError, setLogoutError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadList = async () => {
@@ -51,7 +52,7 @@ const ProfilePage = () => {
       dispatch(logoutUser());
       navigate('/login');
     } catch (e) {
-      console.error(e);
+      setLogoutError(getErrorMessage(e));
     }
   };
 
@@ -112,6 +113,7 @@ const ProfilePage = () => {
           {deleteError ? <div className={s.errorMessage}>{deleteError}</div> : null}
         </>
       )}
+      {logoutError && <div className={s.errorMessage}>{logoutError}</div>}
     </div>
   );
 };

@@ -58,7 +58,7 @@ const CardPage = () => {
     return () => {
       cancelled = true;
     };
-  }, [movieId, resId]);
+  }, [movieId, resId, isValidId]);
 
   const loadRatingStats = useCallback(async () => {
     if (!isValidId) return;
@@ -138,7 +138,7 @@ const CardPage = () => {
 
           {isAuth ? (
             <button type="button" className={s.sideBtn} onClick={() => setListModalOpen(true)}>
-              Добавить в папку
+              Добавить в список
             </button>
           ) : (
             <Link className={s.rateGuestLink} to="/login">

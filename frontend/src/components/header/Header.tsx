@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import icons from '../../../public/favicon.svg';
 import { Link } from 'react-router-dom';
 import s from './header.module.css';

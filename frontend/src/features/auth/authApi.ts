@@ -53,7 +53,7 @@ const requestAuth = async (url: string, payload: AuthPayload): Promise<AuthOkRes
   } catch (e) {
     const err = e as AxiosError<{ message?: string}>;
     const message = err.response?.data?.message ?? err.message ?? 'Ошибка авторизации';
-    throw new Error(message);
+    throw new Error(message, { cause: e});
   }
 }
 

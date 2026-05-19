@@ -72,7 +72,15 @@ export const setRating = async (movieId: number, rating: number): Promise<Rating
 
 export const getRating = async (movieId: number): Promise<RatingResponse | null> => {
   try {
-    const res = await api.get<RatingResponse>(MoviesApiPath.Rating(movieId));
+    const res = await api.get<RatingResponse>(MoviesApiPath.Rating(movieId), {
+      validateStatus: (status) => {
+        return status === 200 || status === 403;
+      }
+    });
+    
+    if (res.status === 403) {
+      return null;
+    } 
     return res.data;
   } catch (e) {
     throw new AxiosError(e, "Ошибка получения оценки");

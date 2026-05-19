@@ -29,7 +29,7 @@ function App() {
 
   useEffect(() => {
     dispatch(bootstrapSession());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!sessionChecked) return;
@@ -38,7 +38,7 @@ function App() {
     } else {
       dispatch(clearFavorites());
     }
-  }, [sessionChecked, isAuth]);
+  }, [sessionChecked, isAuth, dispatch]);
 
   return (
     <Routes>

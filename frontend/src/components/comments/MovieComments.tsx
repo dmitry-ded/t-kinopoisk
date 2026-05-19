@@ -114,6 +114,10 @@ const MovieComments = ({ movieId }: MovieCommentsProps) => {
   };
 
   const handleDelete = async (commentId: number) => {
+    if (!window.confirm(`Вы уверены, что хотите удалить комментарий?`)) {
+      return;
+    }
+
     setDeletingId(commentId);
     setFormError(null);
     try {

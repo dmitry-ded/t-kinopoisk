@@ -21,7 +21,7 @@ const ProfileListCard = ({
 }: ProfileListCardProps) => {
 
   const handleDelete = () => {
-    if (window.confirm(`Вы уверены, что хотите удалить список ${title}`)) {
+    if (window.confirm(`Вы уверены, что хотите удалить список: ${title}?`)) {
       onDelete(id);
     }
   };

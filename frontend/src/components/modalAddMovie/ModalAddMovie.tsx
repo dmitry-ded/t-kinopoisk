@@ -95,7 +95,7 @@ const ModalAddMovie = ({ isOpen, onClose, movieId }: ModalAddMovieProps) => {
     <div className={s.overlay} onClick={onClose}>
       <div className={s.modal} onClick={(e) => e.stopPropagation()}>
         <div className={s.head}>
-          <h2 className={s.title}>Добавить в папку</h2>
+          <h2 className={s.title}>Добавить в список</h2>
         </div>
 
         <div className={s.body}>

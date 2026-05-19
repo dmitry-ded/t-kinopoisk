@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { isAxiosError } from 'axios';
 import {
   fetchCommunityLists,
   type CommunityUserListsResponse,

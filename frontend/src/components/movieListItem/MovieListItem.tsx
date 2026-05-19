@@ -12,7 +12,7 @@ type MovieListItemProps = {
 
 const MovieListItem = ({ movie, movieId, isOwner, isRemoving, onRemove }: MovieListItemProps) => {
   const handleDelete = () => {
-    if (window.confirm(`Вы уверены, что хотите удалить фильм`)) {
+    if (window.confirm(`Вы уверены, что хотите удалить фильм: ${movie?.name}?`)) {
       onRemove(movieId);
     }
   };
