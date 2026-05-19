@@ -1,17 +1,21 @@
 .header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 12px;
+  gap: 12px;
+  padding: 12px;
   background: #0d0d0d;
   border-bottom: 1px solid #222;
-
 }
 
 .logoBtn {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
   padding: 8px 14px;
   border-radius: 12px;
   border: 1px solid #333;
@@ -33,25 +37,38 @@
 }
 
 .logo {
+  flex-shrink: 0;
   width: 24px;
   height: 24px;
 }
 
 .brand {
+  overflow: hidden;
   font-size: 16px;
   font-weight: 800;
   color: inherit;
   letter-spacing: 0.2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.centerNav {
+.desktopNav {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
   gap: 10px;
 }
 
 .navigate {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   min-height: 40px;
   padding: 0 18px;
   border-radius: 12px;
@@ -74,4 +91,163 @@ button.navigate:hover {
   background: #2a2a2a;
   border-color: #ffcc00;
   color: #ffcc00;
+}
+
+.navigateActive {
+  border-color: #ffcc00;
+  color: #ffcc00;
+}
+
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #333;
+  background: #1e1e1e;
+  cursor: pointer;
+}
+
+.burger:hover {
+  border-color: #ffcc00;
+}
+
+.burgerBar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: #f5f5f5;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.burgerBarTop {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.burgerBarMid {
+  opacity: 0;
+}
+
+.burgerBarBottom {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.overlayVisible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  width: min(320px, 88vw);
+  height: 100dvh;
+  padding: 16px;
+  background: #111;
+  border-left: 1px solid #333;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.45);
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.drawerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.drawerTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #f5f5f5;
+}
+
+.drawerClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #333;
+  border-radius: 12px;
+  background: #1e1e1e;
+  color: #f5f5f5;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.drawerClose:hover {
+  border-color: #ffcc00;
+  color: #ffcc00;
+}
+
+.drawerNav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.drawerNav .navigate {
+  width: 100%;
+  justify-content: flex-start;
+  padding: 0 16px;
+}
+
+@media (max-width: 768px) {
+  .desktopNav,
+  .desktopProfile {
+    display: none;
+  }
+
+  .burger {
+    display: inline-flex;
+  }
+
+  .brand {
+    font-size: 14px;
+  }
+
+  .logoBtn {
+    padding: 8px 10px;
+  }
+}
+
+@media (min-width: 769px) {
+  .overlay,
+  .drawer {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .brand {
+    display: none;
+  }
 }

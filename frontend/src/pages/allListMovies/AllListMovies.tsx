@@ -75,7 +75,7 @@ const AllListMovies = () => {
           setList(null);
           setMoviesById({});
           setMoviesLoading(false);
-          getErrorMessage(e);
+          setLoadError(getErrorMessage(e));
         }
       } finally {
         if (!cancelled) {
