@@ -1,0 +1,29 @@
+image: node:22
+
+stages:
+  - validate
+
+variables:
+  PNPM_HOME: "/pnpm"
+  PATH: "$PNPM_HOME:$PATH"
+
+before_script:
+  - corepack enable
+  - corepack prepare pnpm@latest --activate
+  - cd frontend
+  - pnpm install --frozen-lockfile
+
+lint:
+  stage: validate
+  script:
+    - pnpm lint
+
+typecheck:
+  stage: validate
+  script:
+    - pnpm typecheck
+
+test:
+  stage: validate
+  script:
+    - pnpm test:run
