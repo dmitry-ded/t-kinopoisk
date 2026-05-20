@@ -30,13 +30,6 @@ install:
       - frontend/pnpm-lock.yaml
       - frontend/.pnpm-store
 
-build:
-  stage: build
-  script:
-    - pnpm run build
-  dependencies:
-    - install
-
 eslint:
   stage: quality
   script:
