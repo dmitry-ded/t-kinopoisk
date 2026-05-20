@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.module.css';
 import MainLayouts from './components/layouts/MainLayouts';
 import HomePage from './pages/home/HomePage';
@@ -21,11 +21,21 @@ import CreateMovieListPage from './pages/createMovieList/CreateMovieListPage';
 import AllListMovies from './pages/allListMovies/AllListMovies';
 import CommunityLists from './pages/communityLists/CommunityLists';
 import UserRatedPage from './pages/userRated/UserRatedPage';
+import { initYandexMetrika, trackPageView } from './utils/yandexMetrika';
 
 function App() {
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const isAuth = useAppSelector(selectIsAuthenticated);
   const sessionChecked = useAppSelector(selectCheckedSession);
+
+  useEffect(() => {
+    initYandexMetrika();
+  }, []);
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
 
   useEffect(() => {
     dispatch(bootstrapSession());
