@@ -2,6 +2,7 @@ package org.example.tkinopoisk.service;
 
 import org.example.tkinopoisk.model.ErrorLog;
 import org.example.tkinopoisk.model.ErrorSource;
+import org.example.tkinopoisk.model.LogKind;
 import org.example.tkinopoisk.repository.ErrorLogRepository;
 import org.example.tkinopoisk.repository.UserRepository;
 import org.example.tkinopoisk.security.UserDetailsImpl;
@@ -40,6 +41,7 @@ public class ErrorLogService {
             Long userId) {
         String stackTrace = throwable != null ? stackTraceOf(throwable) : null;
         persist(
+                LogKind.ERROR,
                 ErrorSource.BACKEND,
                 message,
                 stackTrace,
@@ -51,6 +53,7 @@ public class ErrorLogService {
 
     public void logFrontend(String message, String stackTrace, String pageUrl, Long userId) {
         persist(
+                LogKind.ERROR,
                 ErrorSource.FRONTEND,
                 message,
                 stackTrace,
@@ -60,7 +63,20 @@ public class ErrorLogService {
                 userId);
     }
 
+    public void logSuccess(String message, String endpoint, String httpMethod, int httpStatus, Long userId) {
+        persist(
+                LogKind.SUCCESS,
+                ErrorSource.BACKEND,
+                message,
+                null,
+                endpoint,
+                httpMethod,
+                httpStatus,
+                userId);
+    }
+
     private void persist(
+            LogKind kind,
             ErrorSource source,
             String message,
             String stackTrace,
@@ -70,8 +86,9 @@ public class ErrorLogService {
             Long userId) {
         try {
             ErrorLog entry = new ErrorLog();
+            entry.setKind(kind);
             entry.setSource(source);
-            entry.setMessage(truncate(message, MESSAGE_MAX_LENGTH, "Unknown error"));
+            entry.setMessage(truncate(message, MESSAGE_MAX_LENGTH, "Unknown event"));
             entry.setStackTrace(truncateNullable(stackTrace, STACK_TRACE_MAX_LENGTH));
             entry.setEndpoint(truncateNullable(endpoint, ENDPOINT_MAX_LENGTH));
             entry.setHttpMethod(truncateNullable(httpMethod, 16));

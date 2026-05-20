@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import icons from '../../../public/favicon.svg';
+import icons from '../../../public/icon.png';
 import { Link } from 'react-router-dom';
 import s from './header.module.css';
 import cn from 'classnames';
@@ -31,9 +31,6 @@ const Header = () => {
           <Link to="/user-rated" className={s.navigate}>
             Рейтинг пользователей
           </Link>
-          <button type="button" className={s.navigate}>
-            Поиск
-          </button>
         </nav>
 
         <div className={s.headerActions}>
@@ -75,9 +72,6 @@ const Header = () => {
           <Link to="/user-rated" className={s.navigate} onClick={closeMenu}>
             Рейтинг пользователей
           </Link>
-          <button type="button" className={s.navigate} onClick={closeMenu}>
-            Поиск
-          </button>
           <Link to="/profile" className={s.navigate} onClick={closeMenu}>
             Профиль
           </Link>

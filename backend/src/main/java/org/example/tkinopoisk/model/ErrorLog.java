@@ -27,6 +27,10 @@ public class ErrorLog {
     @Column(nullable = false, length = 16)
     private ErrorSource source;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 16)
+    private LogKind kind;
+
     @Column(nullable = false, length = 1000)
     private String message;
 
@@ -73,6 +77,14 @@ public class ErrorLog {
 
     public void setSource(ErrorSource source) {
         this.source = source;
+    }
+
+    public LogKind getKind() {
+        return kind;
+    }
+
+    public void setKind(LogKind kind) {
+        this.kind = kind;
     }
 
     public String getMessage() {
