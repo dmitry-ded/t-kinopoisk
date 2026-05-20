@@ -1,12 +1,14 @@
 import axios, { AxiosError } from "axios";
 
-export const getUrl = () => {
-  if (typeof window !== "undefined" && !window.location.host.includes("localhost")) {
-    return "https://tkinopoisk-a1c5zmy0.b4a.run";
+export const getUrl = (): string => {
+  if (import.meta.env.DEV) {
+    const fromEnv = import.meta.env.VITE_API_URL;
+    const base =
+      fromEnv && typeof fromEnv === 'string' ? fromEnv : 'http://localhost:8080';
+    return base.replace(/\/$/, '');
   }
-
-  return "http://localhost:8080";
-}
+  return '';
+};
 
 const URL = getUrl();
 const API_PREFIX = '/api/auth/';
