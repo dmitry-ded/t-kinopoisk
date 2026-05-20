@@ -1,29 +1,59 @@
-image: node:22
-
 stages:
-  - validate
+  - install
+  - build
+  - quality
 
 variables:
-  PNPM_HOME: "/pnpm"
-  PATH: "$PNPM_HOME:$PATH"
+  PNPM_STORE_PATH: frontend/.pnpm-store
 
-before_script:
-  - corepack enable
-  - corepack prepare pnpm@latest --activate
-  - cd frontend
-  - pnpm install --frozen-lockfile
+default:
+  image: node:20
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@latest-9 --activate
+    - cd frontend
+    - pnpm config set store-dir $PNPM_STORE_PATH
+  cache:
+    key:
+      files:
+        - frontend/pnpm-lock.yaml
+    paths:
+      - $PNPM_STORE_PATH
 
-lint:
-  stage: validate
+install:
+  stage: install
+  script:
+    - pnpm install --frozen-lockfile
+  artifacts:
+    paths:
+      - frontend/node_modules/
+      - frontend/pnpm-lock.yaml
+      - frontend/.pnpm-store
+
+build:
+  stage: build
+  script:
+    - pnpm run build
+  dependencies:
+    - install
+
+eslint:
+  stage: quality
   script:
     - pnpm lint
+  dependencies:
+    - install
 
-typecheck:
-  stage: validate
+types:
+  stage: quality
   script:
     - pnpm typecheck
+  dependencies:
+    - install
 
 test:
-  stage: validate
+  stage: quality
   script:
     - pnpm test:run
+  dependencies:
+    - install
